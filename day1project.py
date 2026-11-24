@@ -34,45 +34,48 @@ def has_upper(pw):
 def symbol(pw):
     return any(char in string.punctuation for char in pw)
 
-if __name__ == "__main__":
-    score = 0
+
+def score_checker(pw):
     missing = []
-    pw = getpass("Enter your password: ") 
+    score = 0
     if is_common(pw):
-        print("Score: 0/100 (Weak)")
-        sys.exit(0)
-        
+            
+            return 0, ["Common Password"]
+            
     if len(pw) >= 8:
-        score += 20
+            score += 20
     else:
-        missing.append("Length 8+")
-    
-    if len(pw) >= 12:
-        score += 15
-    else:
-        missing.append("Length 12+")
+            missing.append("Length 8+")
         
-    if has_upper(pw):
-        score += 15
-    else:
-        missing.append("upper")
-    if has_lower(pw):
+    if len(pw) >= 12:
             score += 15
     else:
-        missing.append("lower")
+            missing.append("Length 12+")
+            
+    if has_upper(pw):
+            score += 15
+    else:
+            missing.append("upper")
+    if has_lower(pw):
+                score += 15
+    else:
+            missing.append("lower")
     if has_digit(pw):
-        score += 15
+            score += 15
     else:
-        missing.append("digits")
-    
+            missing.append("digits")
+        
     if symbol(pw):
-        score += 20
+            score += 20
     else:
-        missing.append("symbol")
+            missing.append("symbol")
+            
+    return score, missing
+if __name__ == "__main__":
 
+    pw = getpass("Enter your password: ") 
+    score,missing = score_checker(pw)
     
-    
-
     #Ratings
     if score <= 49:
         rating = "Weak"
